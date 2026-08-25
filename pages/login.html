@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quiz Master - Login</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <header class="top-bar">
+            <h1>Quiz Master</h1>
+            <p>Login to continue</p>
+        </header>
+
+        <main class="home-container">
+
+            <section class="welcome-card">
+
+                <h2>Welcome Back</h2>
+
+                <p>
+                    Sign in to Quiz Master and continue your quiz journey.
+                </p>
+
+                <button
+                    type="button"
+                    id="googleLoginButton">
+                    Continue with Google
+                </button>
+
+                <br><br>
+
+                <button
+                    type="button"
+                    id="recoveryButton">
+                    Account Recovery
+                </button>
+
+                <br><br>
+
+                <button
+                    type="button"
+                    id="homeButton">
+                    Back to Home
+                </button>
+
+                <p id="loginStatus"></p>
+
+            </section>
+
+        </main>
+
+        <footer>
+            <p>© 2026 Quiz Master</p>
+        </footer>
+
+    </div>
+
+
+    <!-- Firebase Login -->
+
+    <script type="module">
+
+        import { initializeApp }
+        from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+        import {
+            getAuth,
+            GoogleAuthProvider,
+            signInWithRedirect
+        }
+        from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1MgiAd4PH4j1_GdzHXhg2cYzTNlOHFLI",
+            authDomain: "quiz-master-53557.firebaseapp.com",
+            projectId: "quiz-master-53557",
+            storageBucket: "quiz-master-53557.firebasestorage.app",
+            messagingSenderId: "596300534675",
+            appId: "1:596300534675:web:df41f72543b6e4a3d64e66"
+        };
+
+
+        const app = initializeApp(firebaseConfig);
+
+        const auth = getAuth(app);
+
+        const provider = new GoogleAuthProvider();
+
+
+        const googleButton =
+            document.getElementById("googleLoginButton");
+
+        const recoveryButton =
+            document.getElementById("recoveryButton");
+
+        const homeButton =
+            document.getElementById("homeButton");
+
+        const status =
+            document.getElementById("loginStatus");
+
+
+        googleButton.addEventListener(
+            "click",
+            async function () {
+
+                try {
+
+                    googleButton.disabled = true;
+
+                    status.textContent =
+                        "Opening Google Login...";
+
+                    await signInWithRedirect(
+                        auth,
+                        provider
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Google Login Error:",
+                        error
+                    );
+
+                    status.textContent =
+                        error.code + " : " + error.message;
+
+                    googleButton.disabled = false;
+                }
+
+            }
+        );
+
+
+        recoveryButton.addEventListener(
+            "click",
+            function () {
+
+                status.textContent =
+                    "Account Recovery will be added next.";
+
+            }
+        );
+
+
+        homeButton.addEventListener(
+            "click",
+            function () {
+
+                window.location.href =
+                    "../index.html";
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
